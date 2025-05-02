@@ -1,5 +1,5 @@
 {
-    "dbstore_path": "/tmp/spingal/domain_category_db/db/dbstore",
+    "dbstore_path": "/tmp/spingal/domain-category-db/db/dbstore",
     "categories": [
         {
             "url": "https://blocklistproject.github.io/Lists/alt-version/abuse-nl.txt",
