@@ -1,0 +1,38 @@
+{
+    "dbstore_path": "/Users/sanjaypingal/ws/coding/experiments/domain_category_db/db/dbstore",
+    "categories": [
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/abuse-nl.txt",
+            "category": "abuse"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/drugs-nl.txt",
+            "category": "drugs"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/phishing-nl.txt",
+            "category": "phishing"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/facebook-nl.txt",
+            "category": "facebook"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/porn-nl.txt",
+            "category": "porn"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/torrent-nl.txt",
+            "category": "torrent"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt",
+            "category": "tracking"
+        },
+        {
+            "url": "https://blocklistproject.github.io/Lists/alt-version/ransomware-nl.txt",
+            "category": "ransomware"
+        }
+    ]
+}
+
