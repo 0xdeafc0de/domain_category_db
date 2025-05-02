@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	DBStoreDir = "dbstore"
+	DBStoreDir     = "dbstore"
 	BaseCategoryID = 101 //Category IDs starts from this ID
 )
 
