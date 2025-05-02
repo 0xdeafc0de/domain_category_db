@@ -1,5 +1,5 @@
-# Domain Category Lookup Server
-A lightweight and extensible domain categorization lookup service in Go. It fetches public blocklists from remote URLs, categorizes domains, and serves lookup requests via a REST API. Supports optional use of radix trees and hash-based indexing for high-performance lookups.
+# Domain Category DB
+A lightweight and extensible domain categorization lookup DB in Go. It fetches public blocklists from remote URLs, categorizes domains, and serves lookup requests via a REST API. Supports optional use of radix trees and hash-based indexing for high-performance lookups.
 
 ## Features
 - Loads domain blocklists from remote URLs or cached local files.
