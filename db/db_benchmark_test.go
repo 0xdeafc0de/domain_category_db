@@ -3,8 +3,8 @@ package db
 import (
 	"bufio"
 	"fmt"
-	"github.com/0xdeafc0de/domain_category_db/config"
-	dm "github.com/0xdeafc0de/domain_category_db/domains"
+	"github.com/0xdeafc0de/domain-category-db/config"
+	dm "github.com/0xdeafc0de/domain-category-db/domains"
 	"os"
 	"path/filepath"
 	"strings"

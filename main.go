@@ -1,0 +1,35 @@
+package main
+
+import (
+	"github.com/0xdeafc0de/domain-category-db/config"
+	"github.com/0xdeafc0de/domain-category-db/db"
+	"github.com/0xdeafc0de/domain-category-db/rest"
+	"log"
+)
+
+const UseRadix = false
+const UseHasdDB = false
+
+func main() {
+	cfg, err := config.LoadConfig("config.json")
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
+
+	dbInstance := db.NewCategoryDB(UseRadix, UseHasdDB)
+	log.Println("DBStore Path = ", cfg.DBStorePath)
+	n := 0
+	for _, src := range cfg.Categories {
+		//log.Printf("Loading category '%s' from %s", src.Category, src.URL)
+		err := dbInstance.LoadDomainsFromURL(cfg.DBStorePath, src.URL, src.Category)
+		if err != nil {
+			log.Printf("Error in loading URL %s. Err = %v", src.URL, err)
+			continue
+		}
+		n++
+	}
+	log.Printf("Total %d categories loaded\n", n)
+
+	rest.StartServer(dbInstance)
+	log.Println("Exiting")
+}
