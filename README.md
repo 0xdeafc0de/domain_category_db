@@ -45,11 +45,13 @@ All categories and data sources are configured in `config.json`:
     // Add more categories as needed
   ]
 }
+```
 
 - Domains are cached locally after first download.
 - Categories are assigned a unique internal ID starting from 101.
 
 ## Build and Run
+
 ```bash
 domain_category_db > make
 Building domaindb...
