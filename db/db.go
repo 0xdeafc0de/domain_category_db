@@ -50,7 +50,7 @@ func (db *CategoryDB) AddCategory(id uint8, name string) {
 	db.CategoriesNameToId[name] = id
 }
 
-func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (error, int) {
+func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (error, int, int) {
 	id, ok := db.CategoriesNameToId[category]
 	if !ok {
 		id = BaseCategoryID + uint8(len(db.CategoriesNameToId))
@@ -65,6 +65,7 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (err
 	var reader io.Reader
 	local := false
 	file, err := os.Open(filePath)
+	count := 0
 	sz := 0
 
 	if err == nil {
@@ -75,26 +76,25 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (err
 		fmt.Println("*** Downloading from URL", url)
 		resp, err := http.Get(url)
 		if err != nil {
-			return fmt.Errorf("failed to download from %s: %v", url, err), sz
+			return fmt.Errorf("failed to download from %s: %v", url, err), count, sz
 		}
 		defer resp.Body.Close()
 
 		f, err := os.Create(filePath)
 		if err != nil {
-			return fmt.Errorf("failed to create file %s: %v", filePath, err), sz
+			return fmt.Errorf("failed to create file %s: %v", filePath, err), count, sz
 		}
 		defer f.Close()
 
 		_, err = io.Copy(f, resp.Body)
 		if err != nil {
-			return fmt.Errorf("failed to save to file %s: %v", filePath, err), sz
+			return fmt.Errorf("failed to save to file %s: %v", filePath, err), count, sz
 		}
 		f.Seek(0, io.SeekStart)
 		reader = f
 	}
 
 	scanner := bufio.NewScanner(reader)
-	count := 0
 	for scanner.Scan() {
 		//domain := strings.TrimSpace(scanner.Text())
 		domain := normalizeDomain(scanner.Text())
@@ -126,7 +126,7 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (err
 	} else {
 		fmt.Printf("Loaded %d domains from %s into category %s\n", count, url, category)
 	}
-	return scanner.Err(), sz
+	return scanner.Err(), count, sz
 }
 
 func (db *CategoryDB) Lookup(domain string) (string, bool, int64) {

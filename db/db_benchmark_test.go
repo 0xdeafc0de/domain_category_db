@@ -142,7 +142,7 @@ func TestDomainList(t *testing.T) {
 
 	for _, src := range sources {
 		fmt.Printf("Loading category '%s' from %s\n", src.Category, src.URL)
-		err, _ := dbInstance.LoadDomainsFromURL(dbstorePath, src.URL, src.Category)
+		err, _, _ := dbInstance.LoadDomainsFromURL(dbstorePath, src.URL, src.Category)
 		if err != nil {
 			fmt.Printf("Error loading %s: %v\n", src.URL, err)
 		}
