@@ -1,5 +1,6 @@
 # Domain Category DB
 A lightweight and extensible domain categorization lookup DB in Go. It supports optional use of radix trees and hash-based indexing for high-performance lookups.
+
 The example application (main.go), fetches public blocklists from remote URLs, categorizes domains, and serves lookup requests via a REST API. 
 
 ## Features
