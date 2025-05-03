@@ -60,16 +60,16 @@ go build -o domaindb main.go
 
 domain_category_db > 
 domain_category_db > ./domaindb
-2025/05/02 14:55:09 DBStore Path =  /tmp/spingal/domain-category-db/db/dbstore
-Loaded 435156 domains from /tmp/spingal/domain-category-db/db/dbstore/abuse into category abuse
-Loaded 26031 domains from /tmp/spingal/domain-category-db/db/dbstore/drugs into category drugs
-Loaded 190222 domains from /tmp/spingal/domain-category-db/db/dbstore/phishing into category phishing
-Loaded 22459 domains from /tmp/spingal/domain-category-db/db/dbstore/facebook into category facebook
-Loaded 500282 domains from /tmp/spingal/domain-category-db/db/dbstore/porn into category porn
-Loaded 2624 domains from /tmp/spingal/domain-category-db/db/dbstore/torrent into category torrent
-Loaded 15070 domains from /tmp/spingal/domain-category-db/db/dbstore/tracking into category tracking
-Loaded 1904 domains from /tmp/spingal/domain-category-db/db/dbstore/ransomware into category ransomware
-2025/05/02 14:55:09 Total 8 categories loaded. Total DB Count = 1193748, Size ~6.58 MB
+2025/05/03 11:32:00 DBStore Path =  /ws/spingal/domain_category_db/_dbstore/blocklists
+Loaded 435156 domains from _dbstore/blocklists/abuse into category abuse
+Loaded 26031 domains from _dbstore/blocklists/drugs into category drugs
+Loaded 190222 domains from _dbstore/blocklists/phishing into category phishing
+Loaded 22459 domains from _dbstore/blocklists/facebook into category facebook
+Loaded 500282 domains from _dbstore/blocklists/porn into category porn
+Loaded 2624 domains from _dbstore/blocklists/torrent into category torrent
+Loaded 15070 domains from _dbstore/blocklists/tracking into category tracking
+Loaded 1904 domains from _dbstore/blocklists/ransomware into category ransomware
+2025/05/03 11:32:00 Total 8 categories loaded. Total DB Count = 1193748, Size ~6.58 MB
 Starting server on port 8081
 Starting pprof server on :8082
 ```
