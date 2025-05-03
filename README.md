@@ -54,12 +54,11 @@ All categories and data sources are configured in `config.json`:
 ## Build and Run
 
 ```bash
-domain_category_db > make
+domain_category_db > make run 
 Building domaindb...
 go build -o domaindb main.go
-
-domain_category_db > 
-domain_category_db > ./domaindb
+Running domaindb...
+./domaindb
 2025/05/02 14:55:09 DBStore Path =  /tmp/spingal/domain-category-db/db/dbstore
 Loaded 435156 domains from /tmp/spingal/domain-category-db/db/dbstore/abuse into category abuse
 Loaded 26031 domains from /tmp/spingal/domain-category-db/db/dbstore/drugs into category drugs
