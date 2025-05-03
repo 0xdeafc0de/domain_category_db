@@ -44,7 +44,6 @@ All categories and data sources are configured in `config.json`:
       "url": "https://blocklistproject.github.io/Lists/alt-version/phishing-nl.txt",
       "category": "phishing"
     }
-    // Add more categories as needed
   ]
 }
 ```
