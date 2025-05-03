@@ -70,7 +70,7 @@ Loaded 500282 domains from /tmp/spingal/domain-category-db/db/dbstore/porn into 
 Loaded 2624 domains from /tmp/spingal/domain-category-db/db/dbstore/torrent into category torrent
 Loaded 15070 domains from /tmp/spingal/domain-category-db/db/dbstore/tracking into category tracking
 Loaded 1904 domains from /tmp/spingal/domain-category-db/db/dbstore/ransomware into category ransomware
-2025/05/02 14:55:09 Total 8 categories loaded
+2025/05/02 14:55:09 Total 8 categories loaded. Total DB Size ~6.58 MB
 Starting server on port 8081
 Starting pprof server on :8082
 ```
