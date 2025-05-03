@@ -50,7 +50,7 @@ func (db *CategoryDB) AddCategory(id uint8, name string) {
 	db.CategoriesNameToId[name] = id
 }
 
-func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) error {
+func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (error, int) {
 	id, ok := db.CategoriesNameToId[category]
 	if !ok {
 		id = BaseCategoryID + uint8(len(db.CategoriesNameToId))
@@ -65,6 +65,8 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) erro
 	var reader io.Reader
 	local := false
 	file, err := os.Open(filePath)
+	sz := 0
+
 	if err == nil {
 		defer file.Close()
 		reader = file
@@ -73,19 +75,19 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) erro
 		fmt.Println("*** Downloading from URL", url)
 		resp, err := http.Get(url)
 		if err != nil {
-			return fmt.Errorf("failed to download from %s: %v", url, err)
+			return fmt.Errorf("failed to download from %s: %v", url, err), sz
 		}
 		defer resp.Body.Close()
 
 		f, err := os.Create(filePath)
 		if err != nil {
-			return fmt.Errorf("failed to create file %s: %v", filePath, err)
+			return fmt.Errorf("failed to create file %s: %v", filePath, err), sz
 		}
 		defer f.Close()
 
 		_, err = io.Copy(f, resp.Body)
 		if err != nil {
-			return fmt.Errorf("failed to save to file %s: %v", filePath, err)
+			return fmt.Errorf("failed to save to file %s: %v", filePath, err), sz
 		}
 		f.Seek(0, io.SeekStart)
 		reader = f
@@ -110,12 +112,21 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) erro
 		count++
 	}
 
+	// Get the total DB Size
+	if db.useRadix {
+		sz = db.radixTree.Len()
+	} else if db.useHash {
+		sz = len(db.fullDBHashed)
+	} else {
+		sz = len(db.FullDB)
+	}
+
 	if local {
 		fmt.Printf("Loaded %d domains from %s into category %s\n", count, dirPath, category)
 	} else {
 		fmt.Printf("Loaded %d domains from %s into category %s\n", count, url, category)
 	}
-	return scanner.Err()
+	return scanner.Err(), sz
 }
 
 func (db *CategoryDB) Lookup(domain string) (string, bool, int64) {

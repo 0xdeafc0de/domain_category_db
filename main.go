@@ -9,6 +9,7 @@ import (
 
 const UseRadix = false
 const UseHasdDB = false
+const MB = 1024 * 1024
 
 func main() {
 	cfg, err := config.LoadConfig("config.json")
@@ -19,16 +20,18 @@ func main() {
 	dbInstance := db.NewCategoryDB(UseRadix, UseHasdDB)
 	log.Println("DBStore Path = ", cfg.DBStorePath)
 	n := 0
+	totalSz := 0
 	for _, src := range cfg.Categories {
 		//log.Printf("Loading category '%s' from %s", src.Category, src.URL)
-		err := dbInstance.LoadDomainsFromURL(cfg.DBStorePath, src.URL, src.Category)
+		err, dbSize := dbInstance.LoadDomainsFromURL(cfg.DBStorePath, src.URL, src.Category)
 		if err != nil {
 			log.Printf("Error in loading URL %s. Err = %v", src.URL, err)
 			continue
 		}
 		n++
+		totalSz += dbSize
 	}
-	log.Printf("Total %d categories loaded\n", n)
+	log.Printf("Total %d categories loaded. Total DB Size ~%.2f MB\n", n, float64(totalSz)/MB)
 
 	rest.StartServer(dbInstance)
 	log.Println("Exiting")
