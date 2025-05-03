@@ -5,6 +5,8 @@ import (
 	"github.com/0xdeafc0de/domain-category-db/db"
 	"github.com/0xdeafc0de/domain-category-db/rest"
 	"log"
+	"os"
+	"path/filepath"
 )
 
 const UseRadix = false
@@ -17,8 +19,14 @@ func main() {
 		log.Fatalf("Failed to load config: %v", err)
 	}
 
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Failed to get current working directory: %v", err)
+	}
+	dbStorePath := filepath.Join(cwd, cfg.DBStorePath)
+	log.Println("DBStore Path = ", dbStorePath)
+
 	dbInstance := db.NewCategoryDB(UseRadix, UseHasdDB)
-	log.Println("DBStore Path = ", cfg.DBStorePath)
 	n := 0
 	totalCnt := 0
 	totalSz := 0
