@@ -54,12 +54,11 @@ All categories and data sources are configured in `config.json`:
 ## Build and Run
 
 ```bash
-domain_category_db > make
+domain_category_db > make run 
 Building domaindb...
 go build -o domaindb main.go
-
-domain_category_db > 
-domain_category_db > ./domaindb
+Running domaindb...
+./domaindb
 2025/05/03 11:32:00 DBStore Path =  /ws/spingal/domain_category_db/_dbstore/blocklists
 Loaded 435156 domains from _dbstore/blocklists/abuse into category abuse
 Loaded 26031 domains from _dbstore/blocklists/drugs into category drugs
@@ -70,8 +69,6 @@ Loaded 2624 domains from _dbstore/blocklists/torrent into category torrent
 Loaded 15070 domains from _dbstore/blocklists/tracking into category tracking
 Loaded 1904 domains from _dbstore/blocklists/ransomware into category ransomware
 2025/05/03 11:32:00 Total 8 categories loaded. Total DB Count = 1193748, Size ~6.58 MB
-Starting server on port 8081
-Starting pprof server on :8082
 ```
 
 ## REST API
