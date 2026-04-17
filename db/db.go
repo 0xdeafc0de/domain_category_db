@@ -90,7 +90,9 @@ func (db *CategoryDB) LoadDomainsFromURL(dbStorePath, url, category string) (err
 		if err != nil {
 			return fmt.Errorf("failed to save to file %s: %v", filePath, err), count, sz
 		}
-		f.Seek(0, io.SeekStart)
+		if _, err := f.Seek(0, io.SeekStart); err != nil {
+			return fmt.Errorf("failed to rewind file %s: %v", filePath, err), count, sz
+		}
 		reader = f
 	}
 
@@ -142,7 +144,7 @@ func (db *CategoryDB) Lookup(domain string) (string, bool, int64) {
 	var catId uint8
 	var found bool
 	if db.useRadix {
-		val, exists := db.radixTree.Get(domain)
+		val, exists := db.radixTree.Get(normDomain)
 		if exists {
 			catId = val.(uint8)
 			found = true
@@ -169,6 +171,6 @@ func normalizeDomain(domain string) string {
 
 func hashDomain(domain string) uint64 {
 	h := fnv.New64a()
-	h.Write([]byte(domain))
+	_, _ = io.WriteString(h, domain)
 	return h.Sum64()
 }
