@@ -72,10 +72,18 @@ func BenchmarkLookup_Cached(b *testing.B) {
 
 func BenchmarkLookup_FullDB(b *testing.B) {
 	db := setupBenchmarkDB(b)
-	domain := "domain999999.com" // Not in cache
+	domains := make([]string, 0, len(db.FullDB))
+	for domain := range db.FullDB {
+		domains = append(domains, domain)
+	}
+	if len(domains) == 0 {
+		b.Fatal("benchmark setup produced no domains")
+	}
+	domain := domains[0]
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
+		db.Cache.Remove(domain)
 		_, _, _ = db.Lookup(domain)
 	}
 }
