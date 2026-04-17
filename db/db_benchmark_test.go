@@ -33,7 +33,7 @@ func setupBenchmarkDB(b *testing.B) *CategoryDB {
 	scanner := bufio.NewScanner(file)
 	count := 0
 	for scanner.Scan() && count < 1000 {
-		domain := scanner.Text()
+		domain := normalizeDomain(scanner.Text())
 		db.FullDB[domain] = 0 // Simulate category ID 0
 		db.Cache.Add(domain, uint8(0))
 		count++
@@ -54,11 +54,19 @@ func BenchmarkLookup_Cached(b *testing.B) {
 	for domain := range db.FullDB {
 		domains = append(domains, domain)
 	}
+	for _, domain := range domains {
+		_, _, _ = db.Lookup(domain)
+	}
 
 	b.ResetTimer()
+	index := 0
 	for i := 0; i < b.N; i++ {
-		domain := domains[i%len(domains)]
+		domain := domains[index]
 		_, _, _ = db.Lookup(domain)
+		index++
+		if index == len(domains) {
+			index = 0
+		}
 	}
 }
 
@@ -101,7 +109,7 @@ func SelectDomains(N int, filename string) ([]string, error) {
 		return nil, fmt.Errorf("file must contain at least %d domains, got %d", N, total)
 	}
 
-	start := domains[:n]
+	start := domains[:n:n]
 	midStart := (total / 2) - 16
 	mid := domains[midStart : midStart+n]
 	end := domains[total-n:]
@@ -110,6 +118,34 @@ func SelectDomains(N int, filename string) ([]string, error) {
 	selected = append(selected, end...)
 
 	return selected, nil
+}
+
+func TestSelectDomains(t *testing.T) {
+	file := filepath.Join(t.TempDir(), "domains.txt")
+	var builder strings.Builder
+	for i := 0; i < 60; i++ {
+		fmt.Fprintf(&builder, "domain%02d.com\n", i)
+	}
+	if err := os.WriteFile(file, []byte(builder.String()), 0o600); err != nil {
+		t.Fatalf("failed to write synthetic domain file: %v", err)
+	}
+
+	selected, err := SelectDomains(30, file)
+	if err != nil {
+		t.Fatalf("SelectDomains returned error: %v", err)
+	}
+	if len(selected) != 30 {
+		t.Fatalf("expected 30 selected domains, got %d", len(selected))
+	}
+	if selected[0] != "domain00.com" || selected[9] != "domain09.com" {
+		t.Fatalf("unexpected start segment: %#v", selected[:10])
+	}
+	if selected[10] != "domain14.com" || selected[19] != "domain23.com" {
+		t.Fatalf("unexpected middle segment: %#v", selected[10:20])
+	}
+	if selected[20] != "domain50.com" || selected[29] != "domain59.com" {
+		t.Fatalf("unexpected end segment: %#v", selected[20:30])
+	}
 }
 
 type Source struct {
