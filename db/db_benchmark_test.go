@@ -165,6 +165,9 @@ func TestDomainList(t *testing.T) {
 	category := "phishing"        // Example category name
 	fileName := "phishing-nl.txt" // Last part of the URL
 	path := filepath.Join(dbstorePath, category, fileName)
+	if _, err := os.Stat(path); err != nil {
+		t.Skipf("skipping integration test: fixture %s is unavailable: %v", path, err)
+	}
 
 	domainListSz := 190222
 	domains, err := SelectDomains(domainListSz, path)
@@ -225,6 +228,9 @@ func TestGetTLD1(t *testing.T) {
 	category := "facebook"
 	fileName := "facebook-nl.txt"
 	path := filepath.Join(dbstorePath, category, fileName)
+	if _, err := os.Stat(path); err != nil {
+		t.Skipf("skipping integration test: fixture %s is unavailable: %v", path, err)
+	}
 
 	domainListSz := 22458
 	domains, err := SelectDomains(domainListSz, path)
